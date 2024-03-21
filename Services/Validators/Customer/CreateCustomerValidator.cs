@@ -17,7 +17,7 @@ namespace Services.Validators.Customer
                 .MaximumLength(50).WithMessage("Maximum 50 characters.");
 
             RuleFor(Q => Q.Email).EmailAddress()
-                .NotEmpty().WithMessage("Email cannot be empty!!!!")
+                .NotEmpty().WithMessage("Email cannot be empty!!!!!!")
                 .MustAsync(BeAvailableEmail).WithMessage("Email already exists.");
         }
 
