@@ -56,9 +56,27 @@ namespace WebApiTraining2.Controllers
 
 		// PUT api/<CustomerController>/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<UpdateCustomerResponse>> 
+			Put(Guid id,[FromBody] UpdateCustomerData model,
+			[FromServices] IValidator<UpdateCustomerRequest> validator,
+			CancellationToken cancellationToken)
 		{
-		}
+			var request = new UpdateCustomerRequest
+			{
+				CustomerID = id,
+				Name = model.Name,
+				Email = model.Email
+			};
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+			var response = await _mediator.Send(request, cancellationToken);
+			return Ok(response.Massage);
+        }
 
 		// DELETE api/<CustomerController>/5
 		[HttpDelete("{id}")]
