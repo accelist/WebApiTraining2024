@@ -24,14 +24,6 @@ namespace Services.RequestHandlers.ManageCustomer
         {
             var existingData = await _db.Customers.Where(Q => Q.CustomerID == request.CustomerID)
                 .Select(Q => Q).FirstOrDefaultAsync();
-            if (existingData == null)
-            {
-                return new UpdateCustomerResponse
-                {
-                    IsExist = false,
-                    Massage = "Customer ID not be found!"
-                };
-            }
 
             existingData.Name = request.Name;
             existingData.Email = request.Email;
@@ -39,7 +31,6 @@ namespace Services.RequestHandlers.ManageCustomer
 
             var response = new UpdateCustomerResponse
             {
-                IsExist = true,
                 Massage = "Successfully updated data!"
             };
 

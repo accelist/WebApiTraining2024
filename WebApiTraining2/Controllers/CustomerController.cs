@@ -80,8 +80,23 @@ namespace WebApiTraining2.Controllers
 
 		// DELETE api/<CustomerController>/5
 		[HttpDelete("{id}")]
-		public void Delete(int id)
+        public async Task<ActionResult<DeleteCustomerResponse>> Delete(Guid id, [FromServices] IValidator<DeleteCustomerRequest> validator,CancellationToken cancellationToken)
 		{
-		}
+			var request = new DeleteCustomerRequest
+			{
+				CustomerID = id,
+			};
+
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response.Massage);
+        }
 	}
 }

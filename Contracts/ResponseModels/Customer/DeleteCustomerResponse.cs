@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contracts.ResponseModels.Customer
 {
-    public class UpdateCustomerResponse
+    public class DeleteCustomerResponse
     {
         public string Massage { get; set; } = string.Empty;
     }

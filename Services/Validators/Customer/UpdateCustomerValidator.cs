@@ -18,6 +18,8 @@ namespace Services.Validators.Customer
         {
             _db = db;
 
+            RuleFor(Q => Q.CustomerID).NotEmpty().WithMessage("Customer ID cannot be empty").MustAsync(CheckID).WithMessage("Customer ID cannot be found!");
+
             RuleFor(Q => Q.Name).NotEmpty().WithMessage("Name cannot be empty.")
                 .MaximumLength(50).WithMessage("Maximum 50 characters.");
 
@@ -33,6 +35,15 @@ namespace Services.Validators.Customer
                 .AnyAsync(cancellationToken);
 
             return !isEmailExist;
+        }
+
+        public async Task<bool> CheckID(Guid? id, CancellationToken cancellationToken)
+        {
+            var idExist = await _db.Customers.Where(Q => Q.CustomerID == id)
+                .AsNoTracking()
+                .AnyAsync(cancellationToken);
+
+            return idExist;
         }
     }
 }
