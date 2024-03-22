@@ -42,6 +42,7 @@ if (app.Environment.IsDevelopment())
 
 	using var scope = app.Services.CreateScope();
 	var db = scope.ServiceProvider.GetRequiredService<DBContext>();
+	//command line bawh ini klo db gk di WebAPITraining2
 	db.Database.EnsureCreated();
 }
 
@@ -66,3 +67,5 @@ finally
 {
 	Log.CloseAndFlush();
 }
+
+public partial class Program { }
