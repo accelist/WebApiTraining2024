@@ -27,6 +27,7 @@ namespace WebApiTraining2.Controllers
 		public async Task<ActionResult<CustomerDataListResponse>> Get(CancellationToken cancellationToken)
 		{
 			var request = new CustomerDataListRequest();
+            //TODO validation
 			var response = await _mediator.Send(request, cancellationToken);
 
 			return Ok(response);
@@ -34,16 +35,20 @@ namespace WebApiTraining2.Controllers
 
 		// GET api/<CustomerController>/5
 		[HttpGet("{id}")]
-		public async Task<ActionResult<ProductDetailResponse>> Get(Guid id, CancellationToken cancellationToken)
-		{
-			ProductDetailRequest request = new ProductDetailRequest { ProductId = id };
-			
-			ProductDetailResponse response = await _mediator.Send(request,cancellationToken);
-			return Ok(response);
-		}
+        public async Task<ActionResult<CustomerDetailResponse>> Get(Guid id, CancellationToken cancellationToken)
+        {
+            var request = new CustomerDetailRequest
+            {
+                CustomerID = id
+            };
+            //TODO validation
+            var response = await _mediator.Send(request, cancellationToken);
 
-		// POST api/<CustomerController>
-		[HttpPost]
+            return Ok(response);
+        }
+
+        // POST api/<CustomerController>
+        [HttpPost]
 		public async Task<ActionResult<CreateCustomerResponse>> Post([FromBody] CreateCustomerRequest request,  [FromServices] IValidator<CreateCustomerRequest> validator, CancellationToken cancellationToken)
 		{
 			var validationResult = await validator.ValidateAsync(request);
@@ -61,14 +66,37 @@ namespace WebApiTraining2.Controllers
 
 		// PUT api/<CustomerController>/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
+        public async Task<ActionResult<UpdateCustomerResponse>> Put(Guid id, [FromBody] UpdateCustomerModel requestModel, [FromServices] IValidator<UpdateCustomerRequest> _updateCustomerValidator, CancellationToken cancellationToken)
+        {
+            var request = new UpdateCustomerRequest
+            {
+                CustomerId = id,
+                Name = requestModel.Name,
+                Email = requestModel.Email,
+            };
+            var validationResult = await _updateCustomerValidator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            var response = await _mediator.Send(request, cancellationToken);
 
-		// DELETE api/<CustomerController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-		}
-	}
+            return Ok(response);
+        }
+
+        // DELETE api/<CustomerController>/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DeleteCustomerResponse>> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            var request = new DeleteCustomerRequest()
+            {
+                CustomerID = id,
+            };
+            //TODO validation
+            var response = await _mediator.Send(request, cancellationToken);
+
+            return Ok(response);
+        }
+    }
 }
