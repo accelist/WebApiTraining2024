@@ -22,7 +22,6 @@ namespace WebApiTraining2.Controllers
         [HttpGet]
         public async Task<ActionResult<ProductDataListResponse>> Get(CancellationToken cancellationToken)
         {
-            //TODO validation
             ProductDataListRequest request = new ProductDataListRequest();
             ProductDataListResponse response = await _mediator.Send(request, cancellationToken);
             return Ok(response);
@@ -45,10 +44,15 @@ namespace WebApiTraining2.Controllers
 
         // POST api/<ProductController>
         [HttpPost]
-        public async Task<ActionResult<CreateProductResponse>> Post([FromBody] CreateProductRequest request, CancellationToken cancellation)
+        public async Task<ActionResult<CreateProductResponse>> Post([FromBody] CreateProductRequest request, [FromServices]IValidator<CreateProductRequest> _validator, CancellationToken cancellationToken)
         { 
-            //TODO validation
-            CreateProductResponse response = await _mediator.Send(request, cancellation);
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            if(!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            CreateProductResponse response = await _mediator.Send(request, cancellationToken);
             return Ok(response);
         }
 

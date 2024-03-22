@@ -6,6 +6,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Contracts.ResponseModels.Product;
 using Contracts.RequestModels.Product;
+using System.ComponentModel.DataAnnotations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,7 +28,6 @@ namespace WebApiTraining2.Controllers
 		public async Task<ActionResult<CustomerDataListResponse>> Get(CancellationToken cancellationToken)
 		{
 			var request = new CustomerDataListRequest();
-            //TODO validation
 			var response = await _mediator.Send(request, cancellationToken);
 
 			return Ok(response);
@@ -35,13 +35,18 @@ namespace WebApiTraining2.Controllers
 
 		// GET api/<CustomerController>/5
 		[HttpGet("{id}")]
-        public async Task<ActionResult<CustomerDetailResponse>> Get(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<CustomerDetailResponse>> Get(Guid id, [FromServices]IValidator<CustomerDetailRequest> _validator, CancellationToken cancellationToken)
         {
             var request = new CustomerDetailRequest
             {
                 CustomerID = id
             };
-            //TODO validation
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            if(!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
             var response = await _mediator.Send(request, cancellationToken);
 
             return Ok(response);
@@ -87,13 +92,18 @@ namespace WebApiTraining2.Controllers
 
         // DELETE api/<CustomerController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<DeleteCustomerResponse>> Delete(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<DeleteCustomerResponse>> Delete(Guid id, [FromServices]IValidator<DeleteCustomerRequest> _validator, CancellationToken cancellationToken)
         {
             var request = new DeleteCustomerRequest()
             {
                 CustomerID = id,
             };
-            //TODO validation
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
             var response = await _mediator.Send(request, cancellationToken);
 
             return Ok(response);

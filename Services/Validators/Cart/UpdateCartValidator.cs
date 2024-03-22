@@ -13,6 +13,8 @@ namespace Services.Validators.Cart
         {
             _db = db;
             RuleFor(Q => Q.CartId).NotEmpty().MustAsync(CartIdExists).WithMessage("Cart ID not found.");
+            RuleFor(Q => Q.Quantity).GreaterThanOrEqualTo(0);
+
         }
         public async Task<bool> CartIdExists(Guid id, CancellationToken cancellationToken)
         {
