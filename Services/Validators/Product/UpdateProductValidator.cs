@@ -13,7 +13,7 @@ namespace Services.Validators.Product
             _db = db;
             RuleFor(Q => Q.ProductID).NotEmpty().MustAsync(ProductIDExists).WithMessage("This product ID was not found.");
             RuleFor(Q=>Q.Name).NotEmpty().MaximumLength(50);
-            RuleFor(Q => Q.Price).NotEmpty().GreaterThan(0);
+            RuleFor(Q => Q.Price).NotEmpty().GreaterThanOrEqualTo(10000);
         }
 
         public async Task<bool> ProductIDExists(Guid id, CancellationToken cancellationToken)

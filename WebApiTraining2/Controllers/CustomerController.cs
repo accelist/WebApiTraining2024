@@ -4,6 +4,8 @@ using MediatR;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using Contracts.ResponseModels.Product;
+using Contracts.RequestModels.Product;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,9 +34,12 @@ namespace WebApiTraining2.Controllers
 
 		// GET api/<CustomerController>/5
 		[HttpGet("{id}")]
-		public string Get(int id)
+		public async Task<ActionResult<ProductDetailResponse>> Get(Guid id, CancellationToken cancellationToken)
 		{
-			return "value";
+			ProductDetailRequest request = new ProductDetailRequest { ProductId = id };
+			
+			ProductDetailResponse response = await _mediator.Send(request,cancellationToken);
+			return Ok(response);
 		}
 
 		// POST api/<CustomerController>

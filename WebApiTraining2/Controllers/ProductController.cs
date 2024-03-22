@@ -22,6 +22,7 @@ namespace WebApiTraining2.Controllers
         [HttpGet]
         public async Task<ActionResult<ProductDataListResponse>> Get(CancellationToken cancellationToken)
         {
+            //TODO validation
             ProductDataListRequest request = new ProductDataListRequest();
             ProductDataListResponse response = await _mediator.Send(request, cancellationToken);
             return Ok(response);
@@ -29,15 +30,24 @@ namespace WebApiTraining2.Controllers
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<ProductDetailResponse>> Get(Guid id, [FromServices] IValidator<ProductDetailRequest> _valdiator, CancellationToken cancellationToken)
         {
-            return "value";
+            ProductDetailRequest request = new ProductDetailRequest { ProductId = id};
+            var validationResult = await _valdiator.ValidateAsync(request, cancellationToken);
+            if(!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            ProductDetailResponse result = await _mediator.Send(request, cancellationToken);
+            return Ok(result);
         }
 
         // POST api/<ProductController>
         [HttpPost]
         public async Task<ActionResult<CreateProductResponse>> Post([FromBody] CreateProductRequest request, CancellationToken cancellation)
         { 
+            //TODO validation
             CreateProductResponse response = await _mediator.Send(request, cancellation);
             return Ok(response);
         }
@@ -53,7 +63,7 @@ namespace WebApiTraining2.Controllers
                 Price = requestModel.Price,
             };
 
-            var validationResult = await _validator.ValidateAsync(request);
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             if(!validationResult.IsValid) 
             {
                 validationResult.AddToModelState(ModelState);
