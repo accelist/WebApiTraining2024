@@ -16,7 +16,5 @@ namespace Contracts.RequestModels.Cart
     public class UpdateCartData
     {
         public int Quantity { get; set; }
-        public Guid ProductID { get; set; }
-        public Guid CustomerID { get; set; }
     }
 }

@@ -81,8 +81,6 @@ namespace WebApiTraining2.Controllers
             {
                 CartID = id,
                 Quantity = model.Quantity,
-                CustomerID = model.CustomerID,
-                ProductID = model.ProductID
             };
             var validationResult = await validator.ValidateAsync(request);
 

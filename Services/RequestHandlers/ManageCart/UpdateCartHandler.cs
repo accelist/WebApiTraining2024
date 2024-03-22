@@ -31,10 +31,17 @@ namespace Services.RequestHandlers.ManageCart
                     Massage = "Failed to update data!"
                 };
             }
+            if(request.Quantity == 0)
+            {
+                _db.Carts.Remove(existingData);
+                await _db.SaveChangesAsync(cancellationToken);
+                return new UpdateCartResponse
+                {
+                    Massage = "Succesfully to update data and deleted it!"
+                };
+            }
 
             existingData.Quantity = request.Quantity;
-            existingData.CustomerID = request.CustomerID;
-            existingData.ProductID = request.ProductID;
             await _db.SaveChangesAsync(cancellationToken);
 
             var response = new UpdateCartResponse

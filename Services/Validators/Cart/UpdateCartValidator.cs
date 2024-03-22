@@ -22,37 +22,12 @@ namespace Services.Validators.Cart
             RuleFor(Q => Q.CartID)
                 .NotEmpty().WithMessage("CartID cannot be empty.")
                 .MustAsync(CheckIDCart).WithMessage("Cart ID cannot be found!");
-            RuleFor(Q => Q.Quantity).NotEmpty().WithMessage("Quantity cannot be empty.");
-
-            RuleFor(Q => Q.ProductID)
-                .NotEmpty().WithMessage("ProductID cannot be empty.")
-                .MustAsync(CheckIDProducts).WithMessage("Product ID cannot be found!");
-            RuleFor(Q => Q.CustomerID)
-                .NotEmpty().WithMessage("CustomerID cannot be empty.")
-                .MustAsync(CheckIDCustomer).WithMessage("Customer ID cannot be found!");
+            RuleFor(Q => Q.Quantity).GreaterThanOrEqualTo(0).WithMessage("Quantity cannot be minus.");
         }
 
         public async Task<bool> CheckIDCart(Guid id, CancellationToken cancellationToken)
         {
             var idExist = await _db.Carts.Where(Q => Q.CartID == id)
-                .AsNoTracking()
-                .AnyAsync(cancellationToken);
-
-            return idExist;
-        }
-
-        public async Task<bool> CheckIDProducts(Guid id, CancellationToken cancellationToken)
-        {
-            var idExist = await _db.Products.Where(Q => Q.ProductID == id)
-                .AsNoTracking()
-                .AnyAsync(cancellationToken);
-
-            return idExist;
-        }
-
-        public async Task<bool> CheckIDCustomer(Guid id, CancellationToken cancellationToken)
-        {
-            var idExist = await _db.Customers.Where(Q => Q.CustomerID == id)
                 .AsNoTracking()
                 .AnyAsync(cancellationToken);
 

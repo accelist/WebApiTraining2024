@@ -18,7 +18,7 @@ namespace Services.Validators.Cart
         {
             _db = db;
 
-            RuleFor(Q => Q.Quantity).NotEmpty().WithMessage("Quantity cannot be empty.");
+            RuleFor(Q => Q.Quantity).NotEmpty().WithMessage("Quantity cannot be empty.").GreaterThan(0).WithMessage("Quantity cannot be minus!");
 
             RuleFor(Q => Q.ProductID)
                 .NotEmpty().WithMessage("ProductID cannot be empty.")
