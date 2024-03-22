@@ -25,6 +25,13 @@ namespace Services.RequestHandlers.ManageProduct
         {
             var data = await _db.Products.Where(Q => Q.ProductID == request.ProductID)
                 .Select(Q => Q).AsNoTracking().FirstOrDefaultAsync();
+            if (data == null)
+            {
+                return new DeleteProductResponse
+                {
+                    Massage = "Failed to delete data!"
+                };
+            }
 
             _db.Products.Remove(data);
             await _db.SaveChangesAsync();

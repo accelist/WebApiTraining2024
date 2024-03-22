@@ -24,6 +24,13 @@ namespace Services.RequestHandlers.ManageCustomer
         {
             var data = await _db.Customers.Where(Q => Q.CustomerID == request.CustomerID)
                 .Select(Q => Q).AsNoTracking().FirstOrDefaultAsync();
+            if (data == null)
+            {
+                return new DeleteCustomerResponse
+                {
+                    Massage = "Failed to delete data!"
+                };
+            }
 
             _db.Customers.Remove(data);
             await _db.SaveChangesAsync();

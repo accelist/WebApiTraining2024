@@ -24,7 +24,8 @@ namespace Services.Validators.Product
                 .MaximumLength(50).WithMessage("Maximum 50 characters.");
 
             RuleFor(Q => Q.Price)
-                .NotEmpty().WithMessage("Price cannot be empty.");
+                .NotEmpty().WithMessage("Price cannot be empty.")
+                .GreaterThanOrEqualTo(10000).WithMessage("Price must be atleast 10000");
         }
 
         public async Task<bool> CheckID(Guid? id, CancellationToken cancellationToken)

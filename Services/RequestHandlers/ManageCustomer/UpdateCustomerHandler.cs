@@ -24,6 +24,13 @@ namespace Services.RequestHandlers.ManageCustomer
         {
             var existingData = await _db.Customers.Where(Q => Q.CustomerID == request.CustomerID)
                 .Select(Q => Q).FirstOrDefaultAsync();
+            if(existingData == null)
+            {
+                return new UpdateCustomerResponse
+                {
+                    Massage = "Failed to update data!"
+                };
+            }
 
             existingData.Name = request.Name;
             existingData.Email = request.Email;

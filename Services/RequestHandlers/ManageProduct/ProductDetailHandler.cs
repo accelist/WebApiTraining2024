@@ -30,6 +30,10 @@ namespace Services.RequestHandlers.ManageProduct
                     Name = Q.Name,
                     Price = Q.Price
                 }).AsNoTracking().FirstOrDefaultAsync(cancellationToken);
+            if (data == null)
+            {
+                return new ProductDetailResponse();
+            }
             var result = new ProductDetailResponse
             {
                 ProductDetails = data

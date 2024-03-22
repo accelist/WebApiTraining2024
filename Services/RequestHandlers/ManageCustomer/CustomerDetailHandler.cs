@@ -29,6 +29,10 @@ namespace Services.RequestHandlers.ManageCustomer
                     Name = Q.Name,
                     Email = Q.Email
                 }).AsNoTracking().FirstOrDefaultAsync(cancellationToken);
+            if (data == null)
+            {
+                return new CustomerDetailResponse();
+            }
             var result = new CustomerDetailResponse
             {
                 CustomerDetails = data

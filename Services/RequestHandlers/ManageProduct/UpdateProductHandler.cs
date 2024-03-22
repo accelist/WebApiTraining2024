@@ -26,6 +26,13 @@ namespace Services.RequestHandlers.ManageProduct
         {
             var existingData = await _db.Products.Where(Q => Q.ProductID == request.ProductID)
                 .Select(Q => Q).FirstOrDefaultAsync();
+            if ( existingData == null)
+            {
+                return new UpdateProductResponse
+                {
+                    Massage = "Failed to update data!"
+                };
+            }
 
             existingData.Name = request.Name;
             existingData.Price = request.Price;
