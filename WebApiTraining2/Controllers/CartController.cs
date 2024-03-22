@@ -18,6 +18,10 @@ namespace WebApiTraining2.Controllers
         {
             _mediator = mediator;
         }
+        //TODO GET -> Cart ID gk butuh, Customer Name, Product Name, Price, Quantity, Subtotal. DONE
+        //TODO PUT -> hanya udah quantity. (+mungkin product) -> delete saat quantity 0.
+            //berarti ganti logic validasi quantity. -> greater than 0.
+
         // GET: api/<CartController>
         [HttpGet]
         public async Task<ActionResult<CartDataListResponse>> Get(CancellationToken cancellationToken)

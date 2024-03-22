@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.ResponseModels.Cart
+namespace Services.RequestHandlers.ManageCart
 {
-    public class CreateCartResponse
+    internal class UpdateCartHandler
     {
-        public Guid CartId { get; set; }
     }
 }

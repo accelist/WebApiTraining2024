@@ -22,12 +22,11 @@ namespace Services.RequestHandlers.ManageCart
                                                   join cus in _db.Customers on c.CustomerID equals cus.CustomerID
                                                   select new CartDetailResponse
                                                   {
-                                                      CartId = c.CartID,
                                                       Quantity = c.Quantity,
-                                                      ProductId = c.ProductID,
-                                                      ProductName = p.Name,
-                                                      CustomerId = c.CustomerID,
                                                       CustomerName = cus.Name,
+                                                      ProductName = p.Name,
+                                                      Price = p.Price,
+                                                      Subtotal = c.Quantity * p.Price
                                                   }).AsNoTracking().FirstOrDefaultAsync(cancellationToken);
             if (response == null)
             {

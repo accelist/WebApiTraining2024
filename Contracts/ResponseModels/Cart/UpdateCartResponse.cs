@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contracts.ResponseModels.Cart
 {
-    public class CreateCartResponse
+    internal class UpdateCartResponse
     {
-        public Guid CartId { get; set; }
     }
 }

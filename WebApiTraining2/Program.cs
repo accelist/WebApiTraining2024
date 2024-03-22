@@ -49,7 +49,7 @@ if (app.Environment.IsDevelopment())
 	using var scope = app.Services.CreateScope();
 	var db = scope.ServiceProvider.GetRequiredService<DBContext>();
 	//this is creating problem for unit testing for some reason
-	//db.Database.EnsureCreated();
+	db.Database.EnsureCreated();
 }
 
 app.UseExceptionHandler("/error");

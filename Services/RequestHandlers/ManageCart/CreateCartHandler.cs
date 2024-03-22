@@ -33,7 +33,7 @@ namespace Services.RequestHandlers.ManageCart
                 CartID = Guid.NewGuid(),
                 Quantity = request.Quantity,
                 ProductID = request.ProductID,
-                CustomerID = customer.CustomerID,
+                CustomerID = request.CustomerID,
                 Product = product,
                 Customer = customer,
             };
@@ -45,9 +45,6 @@ namespace Services.RequestHandlers.ManageCart
             return new CreateCartResponse()
             {
                 CartId = newCart.CartID,
-                CustomerId = newCart.CustomerID,
-                ProductId = newCart.ProductID,
-                Quantity = request.Quantity,
             };
         }
     }

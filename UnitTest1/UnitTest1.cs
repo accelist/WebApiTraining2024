@@ -1,3 +1,4 @@
+using Contracts.RequestModels.Customer;
 using Contracts.RequestModels.Product;
 using Entity.Entity;
 using Newtonsoft.Json;
@@ -22,18 +23,23 @@ namespace UnitTest1
         {
             //Arrange
             var client = _factory.CreateClient();
-            var product = new CreateProductRequest()
+            //var product = new CreateProductRequest()
+            //{
+            //    Name = "Test1",
+            //    Price = 100000,
+            //};
+            var customer = new CreateCustomerRequest
             {
-                Name = "Test1",
-                Price = 100000,
+                Name = "TestName",
+                Email = "TestEmail@gmail.com"
             };
 
 
 
             //Act
             //var response = await client.GetAsync("api/v1/product");
-            var stringContent = new StringContent(JsonConvert.SerializeObject(product), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("api/v1/product", stringContent);
+            var stringContent = new StringContent(JsonConvert.SerializeObject(customer), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("api/v1/customer", stringContent);
 
 
             //Assert
