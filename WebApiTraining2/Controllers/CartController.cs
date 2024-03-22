@@ -18,9 +18,6 @@ namespace WebApiTraining2.Controllers
         {
             _mediator = mediator;
         }
-        //TODO GET -> Cart ID gk butuh, Customer Name, Product Name, Price, Quantity, Subtotal. DONE
-        //TODO PUT -> hanya udah quantity. (+mungkin product) -> delete saat quantity 0.
-            //berarti ganti logic validasi quantity. -> greater than 0.
 
         // GET: api/<CartController>
         [HttpGet]
@@ -45,7 +42,8 @@ namespace WebApiTraining2.Controllers
                 validationResult.AddToModelState(ModelState);
                 return ValidationProblem(ModelState);
             }
-            return Ok(validationResult);
+            var result = await _mediator.Send(request, cancellationToken);
+            return Ok(result);
         }
 
         // POST api/<CartController>
@@ -64,14 +62,37 @@ namespace WebApiTraining2.Controllers
 
         // PUT api/<CartController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<UpdateCartResponse>> Put(Guid id, [FromBody] UpdateCartModel requestModel, 
+            [FromServices] IValidator<UpdateCartRequest> _validator, CancellationToken cancellationToken)
         {
+            UpdateCartRequest request = new UpdateCartRequest 
+            {
+                CartId = id,
+                Quantity = requestModel.Quantity
+            };
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            var result = await _mediator.Send(request, cancellationToken);
+            return Ok(result);
         }
 
         // DELETE api/<CartController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult<DeleteCartResponse>> Delete(Guid id, [FromServices]IValidator<DeleteCartRequest> _validator, CancellationToken cancellationToken)
         {
+            var request = new DeleteCartRequest { CartId = id };
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            if(!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            var result = await _mediator.Send(request, cancellationToken);
+            return Ok(result);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+
 using Contracts.RequestModels.Cart;
 using Entity.Entity;
 using FluentValidation;
@@ -6,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Services.Validators.Cart
 {
-    public class UpdateCartValidator : AbstractValidator<UpdateCartRequest>
+    public class DeleteCartValidator : AbstractValidator<DeleteCartRequest>
     {
         private readonly DBContext _db;
-        public UpdateCartValidator(DBContext db)
+        public DeleteCartValidator(DBContext db)
         {
             _db = db;
             RuleFor(Q => Q.CartId).NotEmpty().MustAsync(CartIdExists).WithMessage("Cart ID not found.");

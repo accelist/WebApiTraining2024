@@ -20,6 +20,7 @@ namespace Services.RequestHandlers.ManageCart
             CartDetailResponse? response = await (from c in _db.Carts
                                                   join p in _db.Products on c.ProductID equals p.ProductID
                                                   join cus in _db.Customers on c.CustomerID equals cus.CustomerID
+                                                  where c.CartID == request.CartId
                                                   select new CartDetailResponse
                                                   {
                                                       Quantity = c.Quantity,

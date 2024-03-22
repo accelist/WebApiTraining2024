@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Contracts.ResponseModels.Cart
+﻿namespace Contracts.ResponseModels.Cart
 {
-    internal class UpdateCartResponse
+    public class UpdateCartResponse
     {
+        public bool IsSuccess { get; set; }
+        public int Quantity {  get; set; }
+        public string Message { get; set; } =string.Empty;
     }
 }
