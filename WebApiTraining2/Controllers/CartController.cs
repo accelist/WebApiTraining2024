@@ -29,9 +29,19 @@ namespace WebApiTraining2.Controllers
 
         // GET api/<CartController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<CartDetailResponse>> Get(Guid id, [FromServices] IValidator<CartDetailRequest> _validator, CancellationToken cancellationToken)
         {
-            return "value";
+            CartDetailRequest request = new CartDetailRequest
+            {
+                CartId = id
+            };
+            var validationResult = await _validator.ValidateAsync(request);
+            if(!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            return Ok(validationResult);
         }
 
         // POST api/<CartController>
