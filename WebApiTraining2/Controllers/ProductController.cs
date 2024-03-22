@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApiTraining2.Controllers
 {
-    [Route("api/v1/Product")]
+    [Route("api/v1/product")]
     [ApiController]
     public class ProductController : ControllerBase
     {

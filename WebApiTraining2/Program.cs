@@ -48,7 +48,8 @@ if (app.Environment.IsDevelopment())
 
 	using var scope = app.Services.CreateScope();
 	var db = scope.ServiceProvider.GetRequiredService<DBContext>();
-	db.Database.EnsureCreated();
+	//this is creating problem for unit testing for some reason
+	//db.Database.EnsureCreated();
 }
 
 app.UseExceptionHandler("/error");
@@ -72,3 +73,5 @@ finally
 {
 	Log.CloseAndFlush();
 }
+
+public partial class Program { }
