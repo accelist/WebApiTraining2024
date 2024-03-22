@@ -18,7 +18,7 @@ namespace Services.Validators.Product
         {
             _db = db;
 
-            RuleFor(Q => Q.ProductID).NotEmpty().WithMessage("Customer ID cannot be empty").MustAsync(CheckID).WithMessage("Customer ID cannot be found!");
+            RuleFor(Q => Q.ProductID).NotEmpty().WithMessage("Customer ID cannot be empty").MustAsync(CheckID).WithMessage("Product ID cannot be found!");
 
             RuleFor(Q => Q.Name).NotEmpty().WithMessage("Name cannot be empty.")
                 .MaximumLength(50).WithMessage("Maximum 50 characters.");
