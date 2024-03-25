@@ -4,6 +4,9 @@ using MediatR;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using Contracts.ResponseModels.Product;
+using Contracts.RequestModels.Product;
+using System.ComponentModel.DataAnnotations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,13 +35,25 @@ namespace WebApiTraining2.Controllers
 
 		// GET api/<CustomerController>/5
 		[HttpGet("{id}")]
-		public string Get(int id)
-		{
-			return "value";
-		}
+        public async Task<ActionResult<CustomerDetailResponse>> Get(Guid id, [FromServices]IValidator<CustomerDetailRequest> _validator, CancellationToken cancellationToken)
+        {
+            var request = new CustomerDetailRequest
+            {
+                CustomerID = id
+            };
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            if(!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            var response = await _mediator.Send(request, cancellationToken);
 
-		// POST api/<CustomerController>
-		[HttpPost]
+            return Ok(response);
+        }
+
+        // POST api/<CustomerController>
+        [HttpPost]
 		public async Task<ActionResult<CreateCustomerResponse>> Post([FromBody] CreateCustomerRequest request,  [FromServices] IValidator<CreateCustomerRequest> validator, CancellationToken cancellationToken)
 		{
 			var validationResult = await validator.ValidateAsync(request);
@@ -56,14 +71,42 @@ namespace WebApiTraining2.Controllers
 
 		// PUT api/<CustomerController>/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
+        public async Task<ActionResult<UpdateCustomerResponse>> Put(Guid id, [FromBody] UpdateCustomerModel requestModel, [FromServices] IValidator<UpdateCustomerRequest> _updateCustomerValidator, CancellationToken cancellationToken)
+        {
+            var request = new UpdateCustomerRequest
+            {
+                CustomerId = id,
+                Name = requestModel.Name,
+                Email = requestModel.Email,
+            };
+            var validationResult = await _updateCustomerValidator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            var response = await _mediator.Send(request, cancellationToken);
 
-		// DELETE api/<CustomerController>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-		}
-	}
+            return Ok(response);
+        }
+
+        // DELETE api/<CustomerController>/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DeleteCustomerResponse>> Delete(Guid id, [FromServices]IValidator<DeleteCustomerRequest> _validator, CancellationToken cancellationToken)
+        {
+            var request = new DeleteCustomerRequest()
+            {
+                CustomerID = id,
+            };
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            var response = await _mediator.Send(request, cancellationToken);
+
+            return Ok(response);
+        }
+    }
 }

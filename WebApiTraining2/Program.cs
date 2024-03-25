@@ -6,6 +6,8 @@ using FluentValidation;
 using Services.Validators.Customer;
 using Serilog;
 using Serilog.Events;
+using Services.RequestHandlers.ManageProduct;
+using Services.Validators.Product;
 /*using FluentValidation.AspNetCore;*/
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +33,10 @@ builder.Services.AddDbContextPool<DBContext>(dbContextBuilder =>
 builder.Services.AddMediatR(typeof(CreateCustomerHandler));
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateCustomerValidator));
 /*builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>());*/
+builder.Services.AddMediatR(typeof(CreateProductHandler));
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(UpdateProductValidator));
+
+
 
 var app = builder.Build();
 
@@ -42,6 +48,7 @@ if (app.Environment.IsDevelopment())
 
 	using var scope = app.Services.CreateScope();
 	var db = scope.ServiceProvider.GetRequiredService<DBContext>();
+	//this is creating problem for unit testing for some reason
 	db.Database.EnsureCreated();
 }
 
@@ -66,3 +73,5 @@ finally
 {
 	Log.CloseAndFlush();
 }
+
+public partial class Program { }
