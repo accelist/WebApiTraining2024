@@ -1,11 +1,16 @@
 using Entity.Entity;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using Services.RequestHandlers.ManageCustomer;
 using FluentValidation;
 using Services.Validators.Customer;
 using Serilog;
 using Serilog.Events;
+using Services.RequestHandlers.ManageCustomer.CustomerHandler;
+using Services.RequestHandlers.ManageCustomer;
+using Services.RequestHandlers.ManageProduct;
+using Services.Validators.Product;
+using Services.RequestHandlers.ManageCart;
+using Services.Validators.Cart;
 /*using FluentValidation.AspNetCore;*/
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +36,11 @@ builder.Services.AddDbContextPool<DBContext>(dbContextBuilder =>
 builder.Services.AddMediatR(typeof(CreateCustomerHandler));
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateCustomerValidator));
 /*builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>());*/
+builder.Services.AddMediatR(typeof(CreateProductHandler));
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateProductValidator));
+
+builder.Services.AddMediatR(typeof(CreateCartHandler));
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateCartValidator));
 
 var app = builder.Build();
 
@@ -45,7 +55,7 @@ if (app.Environment.IsDevelopment())
 	db.Database.EnsureCreated();
 }
 
-app.UseExceptionHandler("/error");
+//app.UseExceptionHandler("/error");
 
 app.UseAuthorization();
 
@@ -66,3 +76,4 @@ finally
 {
 	Log.CloseAndFlush();
 }
+public partial class Program { }
