@@ -34,9 +34,15 @@ namespace WebApiTraining2.Controllers
 
         // GET api/<CartController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<DetailCartResponse>> Get(Guid id, CancellationToken cancellationToken)
         {
-            return "value";
+            var request = new DetailCartRequest()
+            {
+                CartID = id
+            };
+
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         // POST api/<CartController>
@@ -81,8 +87,23 @@ namespace WebApiTraining2.Controllers
 
         // DELETE api/<CartController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult<DeleteCartRequest>> Delete(Guid id, [FromServices] IValidator<DeleteCartRequest> validator, CancellationToken cancellationToken)
         {
+            var request = new DeleteCartRequest()
+            {
+                CartID = id
+            };
+
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
     }
 }

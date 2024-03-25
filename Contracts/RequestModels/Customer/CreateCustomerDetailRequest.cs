@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Contracts.ResponseModels.Customer;
+using MediatR;
+
 
 namespace Contracts.RequestModels.Customer
 {
-    public class CreateCustomerDetailRequest
+    public class CreateCustomerDetailRequest : IRequest<CreateCustomerDetailResponse>
     {
-
+        public Guid CustomerID { get; set; }   
     }
 }

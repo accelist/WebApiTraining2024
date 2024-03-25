@@ -35,21 +35,16 @@ namespace WebApiTraining2.Controllers
 
         // GET api/<CustomerController>/5
         [HttpGet("{id}")]
-        //public async Task<ActionResult<CreateCustomerDetailResponse>> Get(Guid id, [FromServices] IValidator<CreateCustomerDetailRequest> validator, CancellationToken cancellationToken)
-        //{
-        //    var request = new CreateCustomerDetailRequest
-        //    {
-        //        CustomerId = id
-        //    };
-        //    var validationResult = await validator.ValidateAsync(request);
-        //    if (!validationResult.IsValid)
-        //    {
-        //        validationResult.AddToModelState(ModelState);
-        //        return ValidationProblem(ModelState);
-        //    }
-        //    var response = await _mediator.Send(request, cancellationToken);
-        //    return Ok(response);
-        //}
+        public async Task<ActionResult<CreateCustomerDetailResponse>> Get(Guid id, CancellationToken cancellationToken)
+        {
+            var request = new CreateCustomerDetailRequest()
+            {
+                CustomerID = id
+            };
+
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response);
+        }
 
 
         // POST api/<CustomerController>

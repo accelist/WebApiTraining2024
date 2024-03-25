@@ -33,9 +33,15 @@ namespace WebApiTraining2.Controllers
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<DetailProductResponse>> Get(Guid id, CancellationToken cancellationToken)
         {
-            return "value";
+            var request = new DetailProductRequest()
+            {
+                ProductID = id
+            };
+
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response);
         }
 
         // POST api/<ProductController>
