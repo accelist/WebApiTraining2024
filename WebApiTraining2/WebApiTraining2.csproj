@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>8da9b451-8662-44c6-8fb6-24cb3472e5a3</UserSecretsId>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,7 @@
 	
    <ItemGroup>
     <InternalsVisibleTo Include="MyTestProject" />
+	   
    </ItemGroup>
 
 </Project>
