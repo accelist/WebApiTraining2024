@@ -5,5 +5,6 @@ namespace Contracts.RequestModels.Customer
 {
 	public class CustomerDataListRequest : IRequest<CustomerDataListResponse>
 	{
+
 	}
 }

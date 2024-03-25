@@ -6,6 +6,7 @@ using FluentValidation;
 using Services.Validators.Customer;
 using Serilog;
 using Serilog.Events;
+using Services.RequestHandlers.ManageProduct;
 /*using FluentValidation.AspNetCore;*/
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,10 @@ builder.Services.AddDbContextPool<DBContext>(dbContextBuilder =>
 
 builder.Services.AddMediatR(typeof(CreateCustomerHandler));
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateCustomerValidator));
+
+builder.Services.AddMediatR(typeof(CreateProductHandler));
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateProductHandler));
+
 /*builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>());*/
 
 var app = builder.Build();
@@ -66,3 +71,5 @@ finally
 {
 	Log.CloseAndFlush();
 }
+
+public partial class Program();
