@@ -80,10 +80,10 @@ namespace TrainingUnitTraining
             var client = _factory.CreateClient();
             var fromBody = new UpdateCartRequest
             {
-                Quantity = 3
+                Quantity = 0
             };
             var temp = new StringContent(JsonConvert.SerializeObject(fromBody), Encoding.UTF8, "application/json");
-            var id = "571a37b5-544a-4c5e-92ca-458dfe7c260b";
+            var id = "ad9f49dc-09ea-495d-876d-988202599d5b";
             //Act
             var response = await client.PutAsync("api/v1/cart" + "/" + id, temp);
             //Assert
