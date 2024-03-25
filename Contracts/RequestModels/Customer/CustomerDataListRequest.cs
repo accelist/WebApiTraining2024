@@ -3,7 +3,8 @@ using MediatR;
 
 namespace Contracts.RequestModels.Customer
 {
-	public class CustomerDataListRequest : IRequest<CustomerDataListResponse>
-	{
-	}
+    public class CustomerDataListRequest : IRequest<CustomerDataListResponse>
+    {
+
+    }
 }

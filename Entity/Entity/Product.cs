@@ -2,18 +2,17 @@
 
 namespace Entity.Entity
 {
-	public class Product
-	{
-		[Key]
-		public Guid ProductID { get; set; }
+    public class Product
+    {
+        [Key]
+        public Guid ProductId { get; set; }
 
-		[Required]
-		[StringLength(255)]
-		public string Name { get; set; } = string.Empty;
+        [Required]
+        public string Name { get; set; } = string.Empty;
 
-		[Required]
-		public decimal Price { get; set; }
+        [Required]
+        public decimal Price { get; set; }
 
-		public List<Cart> Carts { get; set; } = new List<Cart>();
-	}
+        public List<Cart> Carts { get; set; } = new List<Cart>();
+    }
 }

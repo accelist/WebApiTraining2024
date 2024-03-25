@@ -3,22 +3,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entity.Entity
 {
-	public class Cart
-	{
-		[Key]
-		public Guid CartID { get; set; }
+    public class Cart
+    {
+        [Key]
+        public Guid CartId { get; set; }
 
-		[Required]
-		public int Quantity { get; set; }
+        [Required] 
+        public int Quantity { get; set; }
 
-		[ForeignKey("ProductID")]
-		public Guid ProductID { get; set; }
+        [ForeignKey("ProductId")]
+        public Guid ProductId { get; set; }
 
-		[ForeignKey("CustomerID")]
-		public Guid CustomerID { get; set; }
+        [ForeignKey("CustomerId")]
+        public Guid CustomerId { get; set; }
 
-		public Product? Product { get; set; }
+        public Product? Product { get; set; }
 
-		public Customer? Customer { get; set; }
-	}
+        public Customer? Customer { get; set; }
+    }
 }

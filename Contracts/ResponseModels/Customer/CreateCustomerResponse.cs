@@ -1,7 +1,8 @@
 ﻿namespace Contracts.ResponseModels.Customer
 {
-	public class CreateCustomerResponse
-	{
-		public Guid CustomerID { get; set; }
-	}
+    public class CreateCustomerResponse
+    {
+        public Guid CustomerId { get; set; }
+
+    }
 }
