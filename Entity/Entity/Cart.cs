@@ -20,5 +20,5 @@ namespace Entity.Entity
 		public Product? Product { get; set; }
 
 		public Customer? Customer { get; set; }
-	}
+    }
 }

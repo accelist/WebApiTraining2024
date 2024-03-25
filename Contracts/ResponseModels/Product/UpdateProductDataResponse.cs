@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.ResponseModels.Customer
+namespace Contracts.ResponseModels.Product
 {
-    public class DeleteCustomerDataResponse
+    public class UpdateProductDataResponse
     {
         public bool Success { get; set; }
         public string Message { get; set; } = string.Empty;

@@ -17,7 +17,7 @@ namespace Services.RequestHandlers.ManageCustomer
         }
         public async Task<UpdateCustomerDataResponse> Handle(UpdateCustomerDataRequest request, CancellationToken cancellationToken)
         {
-            var existingData = await _db.Customers.FindAsync(request.CustomerId);
+            var existingData = await _db.Customers.FindAsync(request.CustomerID);
             if (existingData == null)
             {
                 return new UpdateCustomerDataResponse()
