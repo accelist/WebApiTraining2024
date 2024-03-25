@@ -6,6 +6,7 @@ using FluentValidation;
 using Services.Validators.Customer;
 using Serilog;
 using Serilog.Events;
+using Services.RequestHandlers.ManageProduct;
 /*using FluentValidation.AspNetCore;*/
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,9 +28,22 @@ builder.Services.AddDbContextPool<DBContext>(dbContextBuilder =>
 {
 	dbContextBuilder.UseSqlite(configuration.GetConnectionString("Sqlite"));
 });
-
+// Add MediatR for Customers
 builder.Services.AddMediatR(typeof(CreateCustomerHandler));
+builder.Services.AddMediatR(typeof(DeleteCustomerDataHandler));
+builder.Services.AddMediatR(typeof(UpdateCustomerDataHandler));
+builder.Services.AddMediatR(typeof(GetCustomerDataByIdHandler));
+builder.Services.AddMediatR(typeof(GetCustomerDataListHandler));
+
+// Add MediatR for Products
+builder.Services.AddMediatR(typeof(CreateProductHandler));
+
+//Add Validator for Customers
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateCustomerValidator));
+
+
+// Add Validator for Products
+
 /*builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>());*/
 
 var app = builder.Build();
@@ -65,4 +79,9 @@ catch (Exception ex)
 finally
 {
 	Log.CloseAndFlush();
+}
+
+public partial class Program
+{
+
 }

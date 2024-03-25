@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Services.Validators.Customer
 {
-	public class CreateCustomerValidator : AbstractValidator<CreateCustomerRequest>
-	{
+    public class EditCustomerDataValidator : AbstractValidator<EditCustomerDataListRequest>
+    {
         private readonly DBContext _db;
 
-        public CreateCustomerValidator(DBContext db)
+        public EditCustomerDataValidator(DBContext db)
         {
             _db = db;
 
@@ -29,7 +29,5 @@ namespace Services.Validators.Customer
 
             return !isEmailExist;
         }
-
-       
     }
 }
