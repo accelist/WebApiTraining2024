@@ -5,10 +5,9 @@ using MediatR;
 
 namespace Services.RequestHandlers.ManageCustomer
 {
-	public class CreateCustomerHandler : IRequestHandler<CreateCustomerRequest, CreateCustomerResponse>
-	{
+    public class CreateCustomerHandler : IRequestHandler<CreateCustomerRequest, CreateCustomerResponse>
+    {
         private readonly DBContext _db;
-
         public CreateCustomerHandler(DBContext db)
         {
             _db = db;
@@ -18,7 +17,7 @@ namespace Services.RequestHandlers.ManageCustomer
         {
             var customer = new Customer
             {
-                CustomerID = Guid.NewGuid(),
+                CustomerId = Guid.NewGuid(),
                 Name = request.Name,
                 Email = request.Email
             };
@@ -28,9 +27,9 @@ namespace Services.RequestHandlers.ManageCustomer
 
             var response = new CreateCustomerResponse
             {
-                CustomerID = customer.CustomerID,
+                CustomerId = customer.CustomerId
             };
-            
+
             return response;
         }
     }

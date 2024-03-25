@@ -1,96 +1,96 @@
-﻿using Contracts.RequestModels.Customer;
-using Contracts.ResponseModels.Customer;
+﻿using Contracts.RequestModels.Cart;
+using Contracts.ResponseModels.Cart;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Services.Validators.Customer;
-using System.ComponentModel.DataAnnotations;
+using Services.Validators.Cart;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebAPITraining2.Controllers
 {
-    [Route("api/v1/customer")]
+    [Route("api/v1/cart")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class CartController : ControllerBase
     {
         private readonly IMediator _mediator;
-
-        public CustomerController(IMediator mediator)
+        public CartController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        // GET: api/<CustomerController>
+        // GET: api/<CartControlleer>
         [HttpGet]
-        public async Task<ActionResult<CustomerDataListResponse>> Get(CancellationToken cancellationToken)
+        public async Task<ActionResult<CartDataListResponse>> Get(CancellationToken cancellationToken)
         {
-            var request = new CustomerDataListRequest();
+            var request = new CartDataListRequest();
             var response = await _mediator.Send(request, cancellationToken);
 
             return Ok(response);
         }
 
-        // GET api/<CustomerController>/5
+        // GET api/<CartControlleer>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CustomerDataDetailResponse>> Get(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<CartDataDetailResponse>> Get(Guid id, CancellationToken cancellationToken)
         {
-            var request = new CustomerDataDetailRequest()
+            var request = new CartDataDetailRequest()
             {
-                CustomerId = id
+                CartId = id
             };
 
             var response = await _mediator.Send(request, cancellationToken);
             return Ok(response);
         }
 
-        // POST api/<CustomerController>
+        // POST api/<CartControlleer>
         [HttpPost]
-        public async Task<ActionResult<CreateCustomerResponse>> Post([FromBody] CreateCustomerRequest request,
-            [FromServices] IValidator<CreateCustomerRequest> validator,
-            CancellationToken cancellationToken)
+        public async Task<ActionResult<CreateCartResponse>> Post([FromBody] CreateCartRequest request, [FromServices]CreateCartValidator validator, CancellationToken cancellationToken)
         {
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
-            if(!validationResult.IsValid)
-            {
-                validationResult.AddToModelState(ModelState);
-                return ValidationProblem(ModelState);
-            }
-            var response = await _mediator.Send(request, cancellationToken);
-
-            return Ok(response);
-        }
-
-        // PUT api/<CustomerController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<UpdateCustomerDataRequest>> Put(Guid id, [FromBody] UpdateCustomerDataModel model, [FromServices] IValidator<UpdateCustomerDataRequest> validator, CancellationToken cancellationToken)
-        {
-            var request = new UpdateCustomerDataRequest
-            {
-                CustomerId = id,
-                Name = model.Name,
-                Email = model.Email
-            };
-            var validationResult = await validator.ValidateAsync(request);
-            if(!validationResult.IsValid)
-            {
-                validationResult.AddToModelState(ModelState);
-                return ValidationProblem(ModelState);
-            }
-            var response = await _mediator.Send(request, cancellationToken);
-            return Ok(response);
-        }
-
-        // DELETE api/<CustomerController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<DeleteCustomerDataRequest>> Delete(Guid id, [FromServices] IValidator<DeleteCustomerDataRequest> validator, CancellationToken cancellationToken)
-        {
-            var request = new DeleteCustomerDataRequest { CustomerId = id };
-
-            var validationResult = await validator.ValidateAsync(request);
-
             if (!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response);
+        }
+
+        // PUT api/<CartControlleer>/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult<UpdateCartDataResponse>> Put(Guid id, [FromBody] UpdateDataModel model, [FromServices]UpdateCartValidator validator, CancellationToken cancellationToken)
+        {
+            var request = new UpdateCartDataRequest()
+            {
+                CartId = id,
+                Quantity = model.Quantity,
+                ProductId = model.ProductId,
+                CustomerId = model.CustomerId
+            };
+
+            var validationResult = await validator.ValidateAsync(request);
+            if(!validationResult.IsValid)
+            {
+                validationResult.AddToModelState(ModelState);
+                return ValidationProblem(ModelState);
+            }
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response);
+        }
+
+        // DELETE api/<CartControlleer>/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DeleteCartDataRequest>> Delete(Guid id, [FromServices] IValidator<DeleteCartDataRequest> validator, CancellationToken cancellationToken)
+        {
+            var request = new DeleteCartDataRequest()
+            {
+                CartId = id
+            };
+
+            var validationResult = await validator.ValidateAsync(request);
+
+            if(!validationResult.IsValid)
             {
                 validationResult.AddToModelState(ModelState);
                 return ValidationProblem(ModelState);

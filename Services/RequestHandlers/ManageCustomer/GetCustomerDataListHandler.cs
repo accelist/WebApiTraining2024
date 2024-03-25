@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Services.RequestHandlers.ManageCustomer
 {
-	public class GetCustomerDataListHandler : IRequestHandler<CustomerDataListRequest, CustomerDataListResponse>
-	{
+    public class GetCustomerDataListHandler : IRequestHandler<CustomerDataListRequest, CustomerDataListResponse>
+    {
         private readonly DBContext _db;
 
         public GetCustomerDataListHandler(DBContext db)
@@ -17,18 +17,16 @@ namespace Services.RequestHandlers.ManageCustomer
 
         public async Task<CustomerDataListResponse> Handle(CustomerDataListRequest request, CancellationToken cancellationToken)
         {
-            var datas = await _db.Customers.Select(Q => new CustomerData
+            var data = await _db.Customers.Select(Q => new CustomerData
             {
-                CustomerID = Q.CustomerID,
+                CustomerId = Q.CustomerId,
                 Name = Q.Name,
-                Email = Q.Email,
-            })
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
+                Email = Q.Email
+            }).AsNoTracking().ToListAsync(cancellationToken);
 
             var response = new CustomerDataListResponse
             {
-                CustomerDatas = datas
+                CustomerData = data
             };
 
             return response;
