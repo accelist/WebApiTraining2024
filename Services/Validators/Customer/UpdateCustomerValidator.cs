@@ -3,30 +3,28 @@ using Entity.Entity;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
-namespace Services.Validators.Product
+namespace Services.Validators.Customer
 {
-    public class CreateCustomerValidator : AbstractValidator<CreateCustomerRequest>
+    public class UpdateCustomerValidator : AbstractValidator<UpdateCustomerDataRequest>
     {
         private readonly DBContext _db;
 
-        public CreateCustomerValidator(DBContext db)
+        public UpdateCustomerValidator(DBContext db)
         {
             _db = db;
-
-            RuleFor(Q => Q.Name).NotEmpty().WithMessage("Name cannot be empty.")
-                .MaximumLength(50).WithMessage("Maximum 50 characters.");
+            RuleFor(Q => Q.Name).NotEmpty().WithMessage("Name Can't be Empty")
+                .MaximumLength(50).WithMessage("Max 50 Characters");
 
             RuleFor(Q => Q.Email).EmailAddress()
                 .NotEmpty().WithMessage("Email Can't be Empty")
                 .MustAsync(BeAvailableEmail).WithMessage("Email Already Exist");
         }
-
         public async Task<bool> BeAvailableEmail(string email, CancellationToken cancellationToken)
         {
-            var isEmailExist = await _db.Customers.Where(Q => Q.Email == email)
-                .AsNoTracking().AnyAsync(cancellationToken);
+            var existingEmail = await _db.Customers.Where(Q => Q.Email == email)
+                .AsNoTracking().AnyAsync();
 
-            return !isEmailExist;
+            return !existingEmail;
         }
     }
 }

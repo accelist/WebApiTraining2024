@@ -1,11 +1,14 @@
-using Entity.Entity;
 using Microsoft.EntityFrameworkCore;
-using MediatR;
 using Services.RequestHandlers.ManageCustomer;
-using FluentValidation;
+using Services.RequestHandlers.ManageProduct;
 using Services.Validators.Customer;
+using Services.Validators.Product;
+using FluentValidation;
+using MediatR;
+using Entity.Entity;
 using Serilog;
 using Serilog.Events;
+
 /*using FluentValidation.AspNetCore;*/
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +34,10 @@ builder.Services.AddDbContextPool<DBContext>(dbContextBuilder =>
 builder.Services.AddMediatR(typeof(CreateCustomerHandler));
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateCustomerValidator));
 /*builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>());*/
+builder.Services.AddMediatR(typeof(CreateProductHandler));
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(UpdateProductValidator));
+
+
 
 var app = builder.Build();
 
@@ -65,4 +72,9 @@ catch (Exception ex)
 finally
 {
 	Log.CloseAndFlush();
+}
+
+public partial class Program
+{
+
 }
