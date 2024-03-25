@@ -21,7 +21,7 @@ namespace Services.Validators.Customer
                 .MustAsync(BeAvailableEmail).WithMessage("Email already exists.");
         }
 
-        private async Task<bool> BeAvailableEmail(string email, CancellationToken cancellationToken)
+        public async Task<bool> BeAvailableEmail(string email, CancellationToken cancellationToken)
         {
             var isEmailExist = await _db.Customers.Where(Q => Q.Email == email)
                 .AsNoTracking()
