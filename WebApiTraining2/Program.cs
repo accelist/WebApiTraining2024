@@ -29,7 +29,10 @@ builder.Services.AddDbContextPool<DBContext>(dbContextBuilder =>
 });
 
 builder.Services.AddMediatR(typeof(CreateCustomerHandler));
+//builder.Services.AddMediatR(typeof(DeleteCustomerValidator));
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateCustomerValidator));
+//builder.Services.AddValidatorsFromAssemblyContaining(typeof(UpdateCustomerValidator));
+//builder.Services.AddValidatorsFromAssemblyContaining(typeof(DeleteCustomerValidator));
 /*builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>());*/
 
 var app = builder.Build();
@@ -65,4 +68,9 @@ catch (Exception ex)
 finally
 {
 	Log.CloseAndFlush();
+}
+
+
+public partial class Program
+{
 }
