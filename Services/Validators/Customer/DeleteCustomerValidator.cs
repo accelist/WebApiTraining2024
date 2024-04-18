@@ -22,7 +22,7 @@ namespace Services.Validators.Customer
                 .AsNoTracking()
                 .AnyAsync(cancellationToken);
 
-            return !isCustomerExist;
+            return isCustomerExist;
         }
     }
 }

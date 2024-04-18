@@ -28,7 +28,7 @@ namespace Services.Validators.Product
                 .AsNoTracking()
                 .AnyAsync(cancellationToken);
 
-            return !isProductExist;
+            return isProductExist;
         }
     }
 }

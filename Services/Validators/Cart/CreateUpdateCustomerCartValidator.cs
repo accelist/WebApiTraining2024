@@ -25,7 +25,7 @@ namespace Services.Validators.Cart
                 .AsNoTracking()
                 .AnyAsync(cancellationToken);
 
-            return !isCustomerExist;
+            return isCustomerExist;
         }
 
         private async Task<bool> IsProductExist(Guid productID, CancellationToken cancellationToken)
@@ -34,7 +34,7 @@ namespace Services.Validators.Cart
                 .AsNoTracking()
                 .AnyAsync(cancellationToken);
 
-            return !isProductExist;
+            return isProductExist;
         }
     }
 }

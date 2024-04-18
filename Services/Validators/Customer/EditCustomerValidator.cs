@@ -29,7 +29,7 @@ namespace Services.Validators.Customer
                 .AsNoTracking()
                 .AnyAsync(cancellationToken);
 
-            return !isCustomerExist;
+            return isCustomerExist;
         }
 
         private async Task<bool> BeAvailableEmail(string email, CancellationToken cancellationToken)

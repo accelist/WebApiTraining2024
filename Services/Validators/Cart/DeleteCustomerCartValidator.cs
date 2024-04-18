@@ -22,7 +22,7 @@ namespace Services.Validators.Cart
                 .AsNoTracking()
                 .AnyAsync(cancellationToken);
 
-            return !isCartExist;
+            return isCartExist;
         }
     }
 }
