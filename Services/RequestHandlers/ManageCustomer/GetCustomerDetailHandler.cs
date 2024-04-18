@@ -28,7 +28,12 @@ namespace Services.RequestHandlers.ManageCustomer
                 .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken);
 
-            return response!;
+            if (response == null)
+            {
+                return new CustomerDetailResponse();
+            }
+
+            return response;
         }
     }
 }

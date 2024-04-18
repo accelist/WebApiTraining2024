@@ -3,7 +3,6 @@ using Contracts.ResponseModels.Cart;
 using Entity.Entity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Services.RequestHandlers.ManageCart
 {
