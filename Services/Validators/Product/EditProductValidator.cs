@@ -18,7 +18,8 @@ namespace Services.Validators.Product
             RuleFor(Q => Q.Name).NotEmpty().WithMessage("Name cannot be empty.")
                 .MaximumLength(50).WithMessage("Maximum 50 characters.");
 
-            RuleFor(Q => Q.Price).NotNull().WithMessage("Price cannot be empty.");
+            RuleFor(Q => Q.Price).NotNull().WithMessage("Price cannot be empty.")
+                .GreaterThan(0).WithMessage("Price must be greate than 0."); ;
         }
 
         private async Task<bool> IsProductExist(Guid productID, CancellationToken cancellationToken)
