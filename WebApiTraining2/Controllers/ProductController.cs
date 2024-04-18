@@ -36,7 +36,7 @@ namespace WebApiTraining2.Controllers
                 ProductID = id
             };
 
-            var validationResult = await validator.ValidateAsync(request);
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
             {
