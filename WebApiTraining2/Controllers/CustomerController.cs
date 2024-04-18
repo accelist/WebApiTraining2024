@@ -21,9 +21,8 @@ namespace WebApiTraining2.Controllers
         }
 
         [HttpGet]
-		public async Task<ActionResult<CustomerDataListResponse>> Get(CancellationToken cancellationToken)
+		public async Task<ActionResult<CustomerDataListResponse>> Get([FromQuery] CustomerDataListRequest request, CancellationToken cancellationToken)
 		{
-			var request = new CustomerDataListRequest();
 			var response = await _mediator.Send(request, cancellationToken);
 
 			return Ok(response);

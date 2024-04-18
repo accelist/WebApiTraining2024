@@ -21,11 +21,14 @@ namespace WebApiTraining2.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CustomerCartResponse>> Get(Guid id, [FromServices] IValidator<CustomerCartRequest> validator, CancellationToken cancellationToken)
+        public async Task<ActionResult<CustomerCartResponse>> Get(Guid id, [FromQuery] CustomerCartModel model, [FromServices] IValidator<CustomerCartRequest> validator, CancellationToken cancellationToken)
         {
             var request = new CustomerCartRequest
             {
-                CustomerID = id
+                CustomerID = id,
+                SearchQuery = model.SearchQuery,
+                PageIndex = model.PageIndex,
+                ItemPerPage = model.ItemPerPage
             };
 
             var validationResult = await validator.ValidateAsync(request);
