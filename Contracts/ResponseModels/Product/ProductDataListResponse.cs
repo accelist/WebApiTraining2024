@@ -3,6 +3,7 @@
     public class ProductDataListResponse
     {
         public List<ProductData> ProductDatas { get; set; } = new List<ProductData>();
+        public int TotalData { get; set; }
     }
 
     public class ProductData

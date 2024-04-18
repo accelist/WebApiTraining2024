@@ -5,6 +5,7 @@ namespace Contracts.ResponseModels.Cart
     public class CustomerCartResponse
     {
         public List<CartData> CartDatas { get; set; } = new List<CartData>();
+        public int TotalData { get; set; }
     }
 
     public class CartData
