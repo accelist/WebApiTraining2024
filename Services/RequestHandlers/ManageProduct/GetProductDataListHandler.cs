@@ -37,7 +37,7 @@ namespace Services.RequestHandlers.ManageProduct
 
             var datas = await query.Select(Q => new ProductData
             {
-                ProductID = Q.ProductID,
+                ProductId = Q.ProductID,
                 Name = Q.Name,
                 Price = Q.Price,
             })

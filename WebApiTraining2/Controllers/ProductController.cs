@@ -29,7 +29,7 @@ namespace WebApiTraining2.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDetailResponse>> Get(Guid id, [FromServices] IValidator<ProductDetailRequest> validator, CancellationToken cancellationToken)
+        public async Task<ActionResult<ProductDetailResponse>> Detail(Guid id, [FromServices] IValidator<ProductDetailRequest> validator, CancellationToken cancellationToken)
         {
             var request = new ProductDetailRequest
             {
