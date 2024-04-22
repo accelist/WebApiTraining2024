@@ -21,7 +21,7 @@ namespace Services.RequestHandlers.ManageProduct
                 .Where(Q => Q.ProductID == request.ProductID)
                 .Select(Q => new ProductDetailResponse
                 {
-                    ProductID = Q.ProductID,
+                    ProductId = Q.ProductID,
                     Name = Q.Name,
                     Price = Q.Price,
                 })

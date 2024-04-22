@@ -19,7 +19,6 @@ namespace Services.RequestHandlers.ManageProduct
             var data = await _db.Products
                 .Where(Q => Q.ProductID == request.ProductID)
                 .Select(Q => Q)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (data == null)
