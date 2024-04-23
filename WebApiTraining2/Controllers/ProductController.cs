@@ -3,12 +3,15 @@ using Contracts.ResponseModels.Product;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApiTraining2.Controllers
 {
+    // You can also set Authorize to all web API in this controller using [Authorize] annotation.
+    // [Authorize]
     [Route("api/v1/product")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -20,6 +23,7 @@ namespace WebApiTraining2.Controllers
             _mediator = mediator;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<ProductDataListResponse>> Get([FromQuery] ProductDataListRequest request, CancellationToken cancellationToken)
         {
@@ -49,6 +53,7 @@ namespace WebApiTraining2.Controllers
             return Ok(response);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<CreateProductResponse>> Post([FromBody] CreateProductRequest request, [FromServices] IValidator<CreateProductRequest> validator, CancellationToken cancellationToken)
         {

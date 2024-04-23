@@ -6,6 +6,7 @@ using FluentValidation;
 using Services.Validators.Customer;
 using Serilog;
 using Serilog.Events;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 /*using FluentValidation.AspNetCore;*/
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,19 @@ builder.Services.AddDbContextPool<DBContext>(dbContextBuilder =>
 builder.Services.AddMediatR(typeof(CreateCustomerHandler));
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(CreateCustomerValidator));
 /*builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerValidator>());*/
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(options =>
+	{
+        options.Authority = configuration["Jwt:Authority"];
+
+        // audience is optional, make sure you read the following paragraphs
+        // to understand your options
+        options.TokenValidationParameters.ValidateAudience = false;
+
+        // it's recommended to check the type header to avoid "JWT confusion" attacks
+        options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+    });
 
 var app = builder.Build();
 
